@@ -39,8 +39,7 @@ public class TimerService extends Service {
         super.onDestroy();
     }
 
-    private void
-    startTimer(double time) {
+    private void startTimer(double time) {
         System.out.println("Starting timer!");
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimeTask(time), 0, 1000);
@@ -55,7 +54,8 @@ public class TimerService extends Service {
     }
 
     private class TimeTask extends TimerTask {
-        private double time;
+        Intent intent = new Intent();
+        double time;
 
         public TimeTask(double time) {
             this.time = time;
@@ -63,9 +63,8 @@ public class TimerService extends Service {
 
         @Override
         public void run() {
-            Intent intent = new Intent(TIMER_UPDATED);
-            time++;
-            intent.putExtra(TIME_EXTRA, time);
+            time+=1.0;
+            intent.putExtra("TIME_EXTRA", time);
             System.out.println("Sending broadcast!!!");
             sendBroadcast(intent);
             System.out.println("Finished sending!");
@@ -77,7 +76,7 @@ public class TimerService extends Service {
             return TimerService.this;
         }
     }
-
     public static final String TIMER_UPDATED = "timerUpdated";
     public static final String TIME_EXTRA = "timeExtra";
+
 }
